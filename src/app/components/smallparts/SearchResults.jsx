@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { GENRE_MAP } from "@/app/lib/genres"
 import MovieModal from "./MovieModal"
 import React from 'react'
+import Fuse from 'fuse.js'
 
 function SearchResults({ searchQuery, genreId }) {
     const [movies, setMovies] = useState([])
@@ -14,29 +15,74 @@ function SearchResults({ searchQuery, genreId }) {
         async function searchMovies() {
             setLoading(true)
             try {
-                let url = ''
-                if (searchQuery && genreId) {
-                    url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(searchQuery)}&language=en-US&page=1`
-                } else if (searchQuery) {
-                    url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(searchQuery)}&language=en-US&page=1`
-                } else if (genreId) {
-                    url = `https://api.themoviedb.org/3/discover/movie?with_genres=${genreId}&language=en-US&page=1`
-                }
+                let results = []
 
-                const res = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        accept: 'application/json',
-                        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_TOKEN}`
+                if (searchQuery) {
+                    // Fetch multiple pages from TMDB search API
+                    const promises = []
+                    for (let page = 1; page <= 3; page++) {
+                        promises.push(
+                            fetch(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(searchQuery)}&language=en-US&page=${page}`, {
+                                method: 'GET',
+                                headers: {
+                                    accept: 'application/json',
+                                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_TOKEN}`
+                                }
+                            })
+                        )
                     }
-                })
-                const data = await res.json()
-                
-                let results = data.results || []
-                if (searchQuery && genreId) {
-                    results = results.filter(movie => 
-                        movie.genre_ids?.includes(parseInt(genreId))
-                    )
+                    
+                    const responses = await Promise.all(promises)
+                    const dataPromises = responses.map(res => res.json())
+                    const datasets = await Promise.all(dataPromises)
+                    
+                    // Combine all results and remove duplicates
+                    const movieMap = new Map()
+                    datasets.forEach(data => {
+                        data.results?.forEach(movie => {
+                            if (!movieMap.has(movie.id)) {
+                                movieMap.set(movie.id, movie)
+                            }
+                        })
+                    })
+
+                    let allMovies = Array.from(movieMap.values())
+
+                    // Apply fuzzy search to refine results
+                    const fuse = new Fuse(allMovies, {
+                        keys: ['title', 'original_title'],
+                        threshold: 0.3, 
+                        includeScore: true,
+                        ignoreLocation: true,
+                        minMatchCharLength: 2,
+                        isCaseSensitive: false
+                    })
+
+                    const fuzzyResults = fuse.search(searchQuery)
+                    results = fuzzyResults.map(result => result.item)
+
+                    // If fuzzy search returns nothing, use all TMDB results
+                    if (results.length === 0) {
+                        results = allMovies
+                    }
+
+                    // Filter by genre if specified
+                    if (genreId) {
+                        results = results.filter(movie => 
+                            movie.genre_ids?.includes(parseInt(genreId))
+                        )
+                    }
+                } else if (genreId) {
+                    // Only genre filter, use discover endpoint
+                    const res = await fetch(`https://api.themoviedb.org/3/discover/movie?with_genres=${genreId}&language=en-US&page=1`, {
+                        method: 'GET',
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_TOKEN}`
+                        }
+                    })
+                    const data = await res.json()
+                    results = data.results || []
                 }
                 
                 setMovies(results)
