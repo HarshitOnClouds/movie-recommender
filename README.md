@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎬 Movie Recommender
+
+A sleek movie discovery app that helps you find your next favorite film. Browse popular movies, search for titles, mark ones you like, and get personalized recommendations powered by AI.
+
+## What You Get
+
+- **Discover Movies**: Browse trending and top-rated movies
+- **Search**: Find specific movies easily
+- **Like & Save**: Mark movies you enjoy for later reference
+- **Smart Recommendations**: Get AI-powered suggestions based on what you liked
+- **Responsive Design**: Works great on desktop and mobile
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js (v18 or newer)
+- npm or yarn
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Setup
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. **Clone or download the project**
+   ```bash
+   cd movie-recommender
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-## Learn More
+3. **Set up environment variables**
+   
+   Create a `.env.local` file in the root directory:
+   ```
+   NEXT_PUBLIC_TMDB_API_KEY=your_tmdb_api_key
+   GROQ_API_KEY=your_groq_api_key
+   ```
+   
+   - Get TMDB API key from [themoviedb.org](https://www.themoviedb.org/settings/api)
+   - Get Groq API key from [console.groq.com](https://console.groq.com)
 
-To learn more about Next.js, take a look at the following resources:
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. **Open in your browser**
+   
+   Visit `http://localhost:3000` and start exploring!
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Commands
 
-## Deploy on Vercel
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm start` - Run production build
+- `npm run lint` - Check code quality
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tech Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Next.js** - React framework for the UI
+- **Tailwind CSS** - Styling
+- **TMDB API** - Movie data
+- **Groq** - AI recommendations
+- **Fuse.js** - Fuzzy search
+
+## How It Works
+
+1. Browse and explore movies
+2. Like movies you're interested in
+3. Your liked movies are saved locally
+4. Request recommendations to get AI-powered suggestions based on your taste
+5. Discover new movies you might enjoy!
+
+---
