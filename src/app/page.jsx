@@ -6,47 +6,52 @@ import Recommendations from "./components/Recommendations";
 
 export default function Page() {
 
-  const [tab, setTab] = useState("home");
+  const [activeTab, setActiveTab] = useState('home');
 
   return (
-    <div className="bg-slate-800 h-screen max-h-screen overflow-y-scroll text-white" >
-
-      <div className="px-3 pt-4 ">
-        <p className="text-xl">
-          CineSearch
-        </p>
-        <p>
-          Find your favorite movies and series
-        </p>
+    <div className="min-h-screen bg-gray-900 text-white">
+      {/* Fixed Navigation Bar */}
+      <div className="fixed bottom-20 left-0 right-0 shadow-lg z-50">
+        <div className="flex justify-center gap-4 p-4">
+          <button
+            onClick={() => setActiveTab('home')}
+            className={`px-6 py-2 text-sm rounded-lg font-medium transition-colors ${
+              activeTab === 'home'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+            }`}
+          >
+            Home
+          </button>
+          <button
+            onClick={() => setActiveTab('liked')}
+            className={`px-6 py-2 text-sm rounded-lg font-medium transition-colors ${
+              activeTab === 'liked'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+            }`}
+          >
+            Liked
+          </button>
+          <button
+            onClick={() => setActiveTab('recommendations')}
+            className={`px-6 py-2 text-sm rounded-lg font-medium transition-colors ${
+              activeTab === 'recommendations'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+            }`}
+          >
+            Recommendations
+          </button>
+        </div>
       </div>
 
-
-
-      <div className="p-4 max-h-screen">
-        {tab === "home" && (
-          <Home />
-        )}
-        {tab === "liked" && (
-          <Liked />
-        )}
-        {tab === "recommendations" && (
-          <Recommendations />
-        )}
+      {/* Content with bottom padding to account for fixed nav */}
+      <div className="pb-20">
+        {activeTab === 'home' && <Home />}
+        {activeTab === 'liked' && <Liked />}
+        {activeTab === 'recommendations' && <Recommendations />}
       </div>
-      {/* <div className="sticky bottom-20 h-18 w-[90vw] mx-auto bg-gray-700 rounded-4xl opacity-80 py-4"></div> */}
-      <div className=" flex justify-around w-[90vw] mx-auto items-center sticky bottom-0  rounded-4xl py-4">
-        <button className="bg-black text-sm px-5 py-2 rounded-2xl " onClick={() => { setTab('home') }}>
-          Home
-        </button>
-        <button className="bg-black text-sm px-5 py-2 rounded-2xl" onClick={() => { setTab('liked') }}>
-          Liked
-        </button>
-        <button className="bg-black text-sm px-5 py-2 rounded-2xl" onClick={() => { setTab('recommendations') }}>
-          Recommendations
-        </button>
-      </div>
-
-
     </div>
   );
 }

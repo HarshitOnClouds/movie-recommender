@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from "react"
 import { GENRE_MAP } from "@/app/lib/genres"
+import MovieModal from "./MovieModal"
 import React from 'react'
 
 function SearchResults({ searchQuery, genreId }) {
     const [movies, setMovies] = useState([])
     const [loading, setLoading] = useState(false)
+    const [selectedMovie, setSelectedMovie] = useState(null)
 
     useEffect(() => {
         async function searchMovies() {
@@ -14,13 +16,10 @@ function SearchResults({ searchQuery, genreId }) {
             try {
                 let url = ''
                 if (searchQuery && genreId) {
-                    // Search with genre filter
                     url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(searchQuery)}&language=en-US&page=1`
                 } else if (searchQuery) {
-                    // Search only
                     url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(searchQuery)}&language=en-US&page=1`
                 } else if (genreId) {
-                    // Genre filter only
                     url = `https://api.themoviedb.org/3/discover/movie?with_genres=${genreId}&language=en-US&page=1`
                 }
 
@@ -33,7 +32,6 @@ function SearchResults({ searchQuery, genreId }) {
                 })
                 const data = await res.json()
                 
-                // Filter by genre if both search and genre are selected
                 let results = data.results || []
                 if (searchQuery && genreId) {
                     results = results.filter(movie => 
@@ -61,13 +59,18 @@ function SearchResults({ searchQuery, genreId }) {
     }
 
     return (
+        <>
         <div className="p-4">
             <div className="text-xl font-bold mb-4">
                 Search Results ({movies.length})
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 {movies.map((movie) => (
-                    <div key={movie.id} className="flex flex-col">
+                    <div 
+                        key={movie.id} 
+                        className="flex flex-col cursor-pointer hover:scale-105 transition-transform"
+                        onClick={() => setSelectedMovie(movie)}
+                    >
                         <img
                             className="rounded-lg w-full h-60 object-cover"
                             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -84,6 +87,14 @@ function SearchResults({ searchQuery, genreId }) {
                 ))}
             </div>
         </div>
+
+        {selectedMovie && (
+            <MovieModal 
+                movie={selectedMovie} 
+                onClose={() => setSelectedMovie(null)} 
+            />
+        )}
+        </>
     )
 }
 
