@@ -11,10 +11,10 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <div className="text-center">
-        <p className="font-black">
+        <p className="font-black text-3xl pt-4 md:text-4xl lg:text-6xl">
           CineFind
         </p>
-        <p>
+        <p className="pb-4 md:text-xl">
           find your perfect getaway movie
         </p>
       </div>
