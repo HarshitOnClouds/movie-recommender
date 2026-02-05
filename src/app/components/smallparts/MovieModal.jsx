@@ -1,8 +1,9 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { GENRE_MAP } from '@/app/lib/genres'
 import { addLikedMovie, removeLikedMovie, isMovieLiked } from '@/app/lib/likedMovies'
+import SkeletonCard from './SkeletonCard'
+
 
 function MovieModal({ movie, onClose }) {
     const [details, setDetails] = useState(null)
@@ -58,7 +59,7 @@ function MovieModal({ movie, onClose }) {
                 onClick={(e) => e.stopPropagation()}
             >
                 {loading ? (
-                    <div className="p-8 text-center">Loading...</div>
+                    <SkeletonCard />
                 ) : (
                     <>
                         <div className="relative">

@@ -78,6 +78,8 @@ function Recommendations() {
 
             const movieResults = await Promise.all(moviePromises)
             setRecommendations(movieResults.filter(Boolean))
+            
+            setSelectedMovies([])
         } catch (error) {
             console.error('Error getting recommendations:', error)
             setError(error.message)
