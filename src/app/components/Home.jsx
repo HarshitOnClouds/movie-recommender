@@ -49,16 +49,7 @@ function Home() {
                         />
                         <button
                             onClick={handleSearch}
-                            className='
-                             bg-blue-600 hover:bg-blue-700 text-white
-                                px-6 py-2 text-sm md:text-xl rounded-xl font-medium
-    transition-all duration-300
-    backdrop-blur-xl
-    bg-gradient-to-b from-white/20 to-white/5
-    border border-white/30
-    shadow-[0_8px_32px_rgba(0,0,0,0.3)]
-
-                            '
+                            className=' bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 text-sm md:text-xl rounded-xl font-mediumtransition-all duration-300 backdrop-blur-xl bg-gradient-to-b from-white/20 to-white/5 border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.3)]'
                         >
                             Search
                         </button>
@@ -91,6 +82,7 @@ function Home() {
                 <SearchResults searchQuery={activeSearchQuery} genreId={activeGenre} />
             ) : (
                 <>
+
                     <PopularMovies />
                     <TopRatedMovies />
                 </>

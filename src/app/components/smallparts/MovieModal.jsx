@@ -43,7 +43,6 @@ function MovieModal({ movie, onClose }) {
             addLikedMovie(movie)
             setIsLiked(true)
         }
-        // Dispatch custom event to update Liked page
         window.dispatchEvent(new Event('likedMoviesChanged'))
     }
 
