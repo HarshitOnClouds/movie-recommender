@@ -9,9 +9,9 @@ export default function Page() {
   const [tab, setTab] = useState("home");
 
   return (
-    <div className="bg-slate-800 h-screen w-screen text-white" >
+    <div className="bg-slate-800 text-white" >
 
-      <div className="px-3 py-4">
+      <div className="px-3 py-4 max-h-screen">
         <p className="text-xl">
           CineSearch
         </p>

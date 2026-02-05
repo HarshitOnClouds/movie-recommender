@@ -1,11 +1,12 @@
 import React from 'react'
-import Row from './smallparts/Row'
+import PopularMovies from './smallparts/PopularMovies'
+import TopRatedMovies from './smallparts/TopRatedMovies'
 
 function Home() {
     return (
         <div className=' '>
-            <Row />
-
+            <PopularMovies/>
+            <TopRatedMovies/>
         </div>
     )
 }
