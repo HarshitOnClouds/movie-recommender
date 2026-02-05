@@ -31,7 +31,7 @@ function PopularMovies() {
             <div>
                 Popular
             </div>
-            <div className="flex overflow-x-scroll gap-4 py-4">
+            <div className="flex overflow-x-scroll gap-4 ty-4">
                 {movies.map((movie) => (
                     <div key={movie.id} className="w-38 flex flex-col items-center p-2 shrink-0">
                         <img
